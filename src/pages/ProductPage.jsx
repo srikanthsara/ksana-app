@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import ProductService  from "../services/ProductService";
+
+
 
 export default function ProductPage() {
 
@@ -10,16 +15,14 @@ export default function ProductPage() {
 
     useEffect(() => {
 
-        axios
-            .get("http://localhost:9090/products")
+        ProductService
+            .getAllProducts()
+
             .then(response => {
 
-                setProducts(response.data);
-
-            })
-            .catch(error => {
-
-                console.error(error);
+                setProducts(
+                    response.data
+                );
 
             });
 
@@ -59,7 +62,8 @@ export default function ProductPage() {
     };
 
     return (
-
+        <>
+              <Header />
         <div className="container mt-4">
 
             <h2>Grocery Products</h2>
@@ -68,68 +72,72 @@ export default function ProductPage() {
 
                 <thead>
 
-                <tr>
+                    <tr>
 
-                    <th>Product Id</th>
+                        <th>Product Id</th>
 
-                    <th>Product Name</th>
+                        <th>Product Name</th>
 
-                    <th>Brand</th>
+                        <th>Brand</th>
 
-                    <th>Price</th>
+                        <th>Price</th>
 
-                    <th>GST %</th>
+                        <th>GST %</th>
 
-                    <th>Stock</th>
+                        <th>Stock</th>
 
-                    <th>Action</th>
+                        <th>Action</th>
 
-                </tr>
+                    </tr>
 
                 </thead>
 
                 <tbody>
 
-                {
+                    {
 
-                    products.map(product => (
+                        products.map(product => (
 
-                        <tr key={product.productId}>
+                            <tr key={product.productId}>
 
-                            <td>{product.productId}</td>
+                                <td>{product.productId}</td>
 
-                            <td>{product.productName}</td>
+                                <td>{product.productName}</td>
 
-                            <td>{product.brand}</td>
+                                <td>{product.brand}</td>
 
-                            <td>₹ {product.price}</td>
+                                <td>₹ {product.price}</td>
 
-                            <td>{product.gstPercentage}%</td>
+                                <td>{product.gstPercentage}%</td>
 
-                            <td>{product.availableQuantity}</td>
+                                <td>{product.availableQuantity}</td>
 
-                            <td>
+                                <td>
 
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => addToCart(product)}
-                                >
+                                    <button
+                                        className="btn btn-primary"
+                                        onClick={() => addToCart(product)}
+                                    >
 
-                                    Add To Cart
+                                        Add To Cart
 
-                                </button>
+                                    </button>
 
-                            </td>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                    ))
-                }
+                        ))
+                    }
 
                 </tbody>
 
             </table>
 
-        </div>
-    );
+         </div>
+
+        <Footer />
+
+    </>
+);
 }

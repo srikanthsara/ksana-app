@@ -1,0 +1,43 @@
+import axios from "axios";
+
+const CART_URL =
+    "http://localhost:9090/cart";
+
+class CartService {
+
+    getCart(customerId) {
+
+        return axios.get(
+            '${CART_URL}/${customerId}'
+        );
+    }
+
+    addToCart(request) {
+
+        return axios.post(
+            '${CART_URL}/add',
+            request
+        );
+    }
+
+    updateQuantity(
+        cartItemId,
+        quantity
+    ) {
+
+        return axios.put(
+            '${CART_URL}/item/${cartItemId}?quantity=${quantity}'
+        );
+    }
+
+    removeItem(
+        cartItemId
+    ) {
+
+        return axios.delete(
+            '${CART_URL}/item/${cartItemId}'
+        );
+    }
+}
+
+export default new CartService();

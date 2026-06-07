@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function CartPage() {
@@ -68,19 +69,21 @@ export default function CartPage() {
         )
             .then(response => {
 
-                alert(
-                    "Order Created Successfully. Order Id : "
-                    + response.data.orderId
+                toast.success(
+                    `Order Created Successfully. Order Id: ${response.data.orderId}`
                 );
 
-                navigate("/orders");
+                setTimeout(() => {
 
+                    navigate("/orders");
+
+                }, 2000);
             })
             .catch(error => {
 
                 console.error(error);
 
-                alert("Order Creation Failed");
+                toast.error("Order Creation Failed");
 
             })
             .finally(() => {
