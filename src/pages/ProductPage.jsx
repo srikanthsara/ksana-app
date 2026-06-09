@@ -107,8 +107,8 @@ export default function ProductPage() {
     };
 
     return (
-        <>
-            <Header />
+        
+            
             <div className="container mt-4">
                 <div className="row mb-3">
 
@@ -234,8 +234,6 @@ export default function ProductPage() {
 
             </div>
 
-            <Footer />
-
-        </>
+          
     );
 }

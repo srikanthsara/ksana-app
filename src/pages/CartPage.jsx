@@ -148,7 +148,7 @@ export default function CartPage() {
     }
 
     return (
-        <>        <Header />
+        
             <div className="container mt-4">
 
                 <h2>My Cart</h2>
@@ -338,8 +338,8 @@ export default function CartPage() {
                 </button>
 
             </div>
-            <Footer />
-        </>
+            
+        
     );
 }
 

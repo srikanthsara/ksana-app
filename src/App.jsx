@@ -7,6 +7,7 @@ import OrderSuccessPage from "./pages/OrderSuccessPage";
 import LoginPage from "./pages/LoginPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import LogoutPage from "./pages/LogoutPage";
 
 function App() {
 

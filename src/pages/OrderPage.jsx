@@ -40,7 +40,7 @@ export default function OrderPage() {
     };
 
     return (
-            <>  <Header />
+            
             <div className="container mt-4">
 
                 <h2>My Orders</h2>
@@ -127,7 +127,7 @@ export default function OrderPage() {
                 </div>
 
             </div>
-            <Footer/>
-        </>
+            
+        
     );
 }
