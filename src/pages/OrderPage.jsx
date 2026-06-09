@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function OrderPage() {
 
@@ -17,9 +18,8 @@ export default function OrderPage() {
 
     const loadOrders = () => {
 
-        axios
-            .get(
-                `http://localhost:9090/orders/customer/CUST1001?page=${page}&size=5`
+        axios.get(
+                `http://localhost:9090/orders/customer/${localStorage.getItem("customerId")}?page=${page}&size=5`
             )
             .then(response => {
 
@@ -40,92 +40,94 @@ export default function OrderPage() {
     };
 
     return (
+            <>  <Header />
+            <div className="container mt-4">
 
-        <div className="container mt-4">
+                <h2>My Orders</h2>
 
-            <h2>My Orders</h2>
+                <table className="table table-bordered">
 
-            <table className="table table-bordered">
+                    <thead>
 
-                <thead>
+                        <tr>
 
-                    <tr>
+                            <th>Order Id</th>
 
-                        <th>Order Id</th>
+                            <th>Customer</th>
 
-                        <th>Customer</th>
+                            <th>Total Amount</th>
 
-                        <th>Total Amount</th>
+                            <th>Status</th>
 
-                        <th>Status</th>
+                        </tr>
 
-                    </tr>
+                    </thead>
 
-                </thead>
+                    <tbody>
 
-                <tbody>
+                        {
 
-                    {
+                            orders.map(order => (
 
-                        orders.map(order => (
+                                <tr key={order.orderId}>
 
-                            <tr key={order.orderId}>
+                                    <td>{order.orderId}</td>
 
-                                <td>{order.orderId}</td>
+                                    <td>{order.customerName}</td>
 
-                                <td>{order.customerName}</td>
+                                    <td>
+                                        ₹ {order.totalAmount}
+                                    </td>
 
-                                <td>
-                                    ₹ {order.totalAmount}
-                                </td>
+                                    <td>
+                                        {order.orderStatus}
+                                    </td>
 
-                                <td>
-                                    {order.orderStatus}
-                                </td>
+                                </tr>
 
-                            </tr>
+                            ))
 
-                        ))
+                        }
 
-                    }
+                    </tbody>
 
-                </tbody>
+                </table>
+                <div className="mt-4 text-center">
 
-            </table>
-            <div className="mt-4 text-center">
+                    <button
+                        className="btn btn-secondary me-2"
+                        disabled={page === 0}
+                        onClick={() =>
+                            setPage(page - 1)
+                        }
+                    >
+                        Previous
+                    </button>
 
-                <button
-                    className="btn btn-secondary me-2"
-                    disabled={page === 0}
-                    onClick={() =>
-                        setPage(page - 1)
-                    }
-                >
-                    Previous
-                </button>
+                    <span>
 
-                <span>
+                        Page {page + 1}
+                        of
+                        {totalPages}
 
-                    Page {page + 1}
-                    of
-                    {totalPages}
+                    </span>
 
-                </span>
+                    <button
+                        className="btn btn-secondary ms-2"
+                        disabled={
+                            page + 1 >= totalPages
+                        }
+                        onClick={() =>
+                            setPage(page + 1)
+                        }
+                    >
+                        Next
+                    </button>
 
-                <button
-                    className="btn btn-secondary ms-2"
-                    disabled={
-                        page + 1 >= totalPages
-                    }
-                    onClick={() =>
-                        setPage(page + 1)
-                    }
-                >
-                    Next
-                </button>
+                </div>
 
             </div>
-
-        </div>
+            <Footer/>
+        </>
     );
 }

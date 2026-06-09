@@ -3,20 +3,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import ProductService  from "../services/ProductService";
+import ProductService from "../services/ProductService";
 
 
 
 export default function ProductPage() {
 
     const [products, setProducts] = useState([]);
-
+    const [searchKeyword, setSearchKeyword] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
 
-        ProductService
-            .getAllProducts()
+        ProductService.getAllProducts()
 
             .then(response => {
 
@@ -28,15 +27,63 @@ export default function ProductPage() {
 
     }, []);
 
+
+    const loadProducts = () => {
+
+        ProductService.getAllProducts()
+            .then(response => {
+
+                setProducts(
+                    response.data
+                );
+
+            });
+    };
+
+    const searchProducts = () => {
+
+        if (
+            searchKeyword.trim() === ""
+        ) {
+
+            loadProducts();
+
+            return;
+        }
+
+        ProductService.searchProducts(
+            searchKeyword
+        )
+            .then(response => {
+
+                setProducts(
+                    response.data
+                );
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+            });
+    };
+
     const addToCart = (product) => {
 
         const payload = {
 
-            customerId: "CUST1001",
+            customerId:
+                localStorage.getItem(
+                    "customerId"
+                ),
 
-            customerName: "Srikanth",
+            customerName:
+                localStorage.getItem(
+                    "username"
+                ),
 
-            productId: product.productId,
+            productId:
+                product.productId,
 
             quantity: 1
         };
@@ -47,8 +94,6 @@ export default function ProductPage() {
                 payload
             )
             .then(response => {
-
-                //alert("Product Added To Cart");
 
                 navigate("/cart");
 
@@ -63,81 +108,134 @@ export default function ProductPage() {
 
     return (
         <>
-              <Header />
-        <div className="container mt-4">
+            <Header />
+            <div className="container mt-4">
+                <div className="row mb-3">
 
-            <h2>Grocery Products</h2>
+                    <div className="col-md-8">
 
-            <table className="table table-bordered table-striped">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Search Product..."
+                            value={searchKeyword}
+                            onChange={(e) => {
 
-                <thead>
+                                const value = e.target.value;
+                                setSearchKeyword(value);
 
-                    <tr>
+                                if (value.trim().length >= 2) {
 
-                        <th>Product Id</th>
+                                    ProductService
+                                        .searchProducts(value)
+                                        .then(response => {
 
-                        <th>Product Name</th>
+                                            setProducts(
+                                                response.data
+                                            );
 
-                        <th>Brand</th>
+                                        });
+                                }
+                            }}
+                        />
 
-                        <th>Price</th>
+                    </div>
 
-                        <th>GST %</th>
+                    <div className="col-md-2">
 
-                        <th>Stock</th>
+                        <button
+                            className="btn btn-primary w-100"
+                            onClick={searchProducts}
+                        >
+                            Search
+                        </button>
 
-                        <th>Action</th>
+                    </div>
 
-                    </tr>
+                    <div className="col-md-2">
 
-                </thead>
+                        <button
+                            className="btn btn-secondary w-100"
+                            onClick={loadProducts}
+                        >
+                            Reset
+                        </button>
 
-                <tbody>
+                    </div>
 
-                    {
+                </div>
+                <h2>Grocery Products</h2>
 
-                        products.map(product => (
+                <table className="table table-bordered table-striped">
 
-                            <tr key={product.productId}>
+                    <thead>
 
-                                <td>{product.productId}</td>
+                        <tr>
 
-                                <td>{product.productName}</td>
+                            <th>Product Id</th>
 
-                                <td>{product.brand}</td>
+                            <th>Product Name</th>
 
-                                <td>₹ {product.price}</td>
+                            <th>Brand</th>
 
-                                <td>{product.gstPercentage}%</td>
+                            <th>Price</th>
 
-                                <td>{product.availableQuantity}</td>
+                            <th>GST %</th>
 
-                                <td>
+                            <th>Stock</th>
 
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => addToCart(product)}
-                                    >
+                            <th>Action</th>
 
-                                        Add To Cart
+                        </tr>
 
-                                    </button>
+                    </thead>
 
-                                </td>
+                    <tbody>
 
-                            </tr>
+                        {
 
-                        ))
-                    }
+                            products.map(product => (
 
-                </tbody>
+                                <tr key={product.productId}>
 
-            </table>
+                                    <td>{product.productId}</td>
 
-         </div>
+                                    <td>{product.productName}</td>
 
-        <Footer />
+                                    <td>{product.brand}</td>
 
-    </>
-);
+                                    <td>₹ {product.price}</td>
+
+                                    <td>{product.gstPercentage}%</td>
+
+                                    <td>{product.availableQuantity}</td>
+
+                                    <td>
+
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => addToCart(product)}
+                                        >
+
+                                            Add To Cart
+
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            ))
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <Footer />
+
+        </>
+    );
 }

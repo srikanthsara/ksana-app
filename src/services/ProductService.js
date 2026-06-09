@@ -1,20 +1,26 @@
 import axios from "axios";
 
-const PRODUCT_URL =
-    "http://localhost:9090/products";
+const PRODUCT_URL = "http://localhost:9090/products";
 
 class ProductService {
 
     getAllProducts() {
 
-        return axios.get(
-            PRODUCT_URL
-        );
+        return axios.get(PRODUCT_URL);
     }
 
-    getProductById(
-        productId
-    ) {
+ searchProducts(name) {
+
+    return axios.get(
+        "http://localhost:9090/products/search",
+        {
+            params: {
+                name: name
+            }
+        }
+    );
+}
+    getProductById(productId) {
 
         return axios.get(
             '${PRODUCT_URL}/${productId}'

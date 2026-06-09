@@ -2,9 +2,16 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
 
+
+    const logout = () => {
+        localStorage.clear();
+        window.location.href = "/login";
+    };
+
+
     return (
 
-       <nav className="navbar app-header">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-success">
 
             <div className="container">
 
@@ -15,7 +22,7 @@ export default function Header() {
                     Ksana Grocery
                 </Link>
 
-                <div className="collapse navbar-collapse">
+                
 
                     <ul className="navbar-nav ms-auto">
 
@@ -52,11 +59,22 @@ export default function Header() {
 
                         </li>
 
+                        <li className="nav-item ms-3">
+
+                        <button
+                            className="btn btn-danger"
+                            onClick={logout}
+                        >
+                            Logout
+                        </button>
+
+                    </li>
+
                     </ul>
 
                 </div>
 
-            </div>
+            
 
         </nav>
     );

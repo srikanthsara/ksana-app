@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function CartPage() {
 
@@ -27,7 +29,7 @@ export default function CartPage() {
     const loadCart = () => {
 
         axios.get(
-            "http://localhost:9090/cart/CUST1001"
+            `http://localhost:9090/cart/${localStorage.getItem("customerId")}`
         )
             .then(response => {
 
@@ -146,190 +148,198 @@ export default function CartPage() {
     }
 
     return (
+        <>        <Header />
+            <div className="container mt-4">
 
-        <div className="container mt-4">
+                <h2>My Cart</h2>
 
-            <h2>My Cart</h2>
+                <table className="table table-bordered">
 
-            <table className="table table-bordered">
+                    <thead>
 
-                <thead>
+                        <tr>
 
-                    <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>GST</th>
+                            <th>Total</th>
+                            <th>Remove</th>
 
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>GST</th>
-                        <th>Total</th>
-                        <th>Remove</th>
+                        </tr>
 
-                    </tr>
+                    </thead>
 
-                </thead>
+                    <tbody>
 
-                <tbody>
+                        {
 
+                            cart.cartItems.map(item => (
+
+                                <tr key={item.cartItemId}>
+
+                                    <td>
+                                        {item.productName}
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() =>
+                                                updateQuantity(
+                                                    item.cartItemId,
+                                                    item.quantity - 1
+                                                )
+                                            }
+                                        >
+                                            -
+                                        </button>
+
+                                        <span className="mx-3">
+                                            {item.quantity}
+                                        </span>
+
+                                        <button
+                                            className="btn btn-success btn-sm"
+                                            onClick={() =>
+                                                updateQuantity(
+                                                    item.cartItemId,
+                                                    item.quantity + 1
+                                                )
+                                            }
+                                        >
+                                            +
+                                        </button>
+
+                                    </td>
+
+                                    <td>
+                                        ₹ {item.unitPrice}
+                                    </td>
+
+                                    <td>
+                                        ₹ {item.gstAmount}
+                                    </td>
+
+                                    <td>
+                                        ₹{
+                                            (
+                                                Number(item.totalPrice)
+                                                +
+                                                Number(item.gstAmount)
+                                            ).toFixed(2)
+                                        }
+                                    </td>
+
+                                    <td>
+
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() =>
+                                                removeItem(
+                                                    item.cartItemId
+                                                )
+                                            }
+                                        >
+                                            Remove
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            ))
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+                <h3>
+                    Grand Total : ₹ {cart.totalAmount}
+                </h3>
+
+                <div className="mb-3">
+
+                    <label className="form-label">
+                        Payment Provider
+                    </label>
+
+                    <select
+                        className="form-select"
+                        value={paymentProvider}
+                        onChange={(e) =>
+                            setPaymentProvider(
+                                e.target.value
+                            )
+                        }
+                    >
+
+                        <option value="GooglePay">
+                            GooglePay
+                        </option>
+
+                        <option value="PhonePe">
+                            PhonePe
+                        </option>
+
+                        <option value="Paytm">
+                            Paytm
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div className="mb-3">
+
+                    <label className="form-label">
+                        Payment Type
+                    </label>
+
+                    <select
+                        className="form-select"
+                        value={paymentType}
+                        onChange={(e) =>
+                            setPaymentType(
+                                e.target.value
+                            )
+                        }
+                    >
+
+                        <option value="UPI">
+                            UPI
+                        </option>
+
+                        <option value="CARD">
+                            CARD
+                        </option>
+
+                        <option value="NET_BANKING">
+                            NET BANKING
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button
+                    className="btn btn-success"
+                    disabled={loading}
+                    onClick={placeOrder}
+                >
                     {
-
-                        cart.cartItems.map(item => (
-
-                            <tr key={item.cartItemId}>
-
-                                <td>
-                                    {item.productName}
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() =>
-                                            updateQuantity(
-                                                item.cartItemId,
-                                                item.quantity - 1
-                                            )
-                                        }
-                                    >
-                                        -
-                                    </button>
-
-                                    <span className="mx-3">
-                                        {item.quantity}
-                                    </span>
-
-                                    <button
-                                        className="btn btn-success btn-sm"
-                                        onClick={() =>
-                                            updateQuantity(
-                                                item.cartItemId,
-                                                item.quantity + 1
-                                            )
-                                        }
-                                    >
-                                        +
-                                    </button>
-
-                                </td>
-
-                                <td>
-                                    ₹ {item.unitPrice}
-                                </td>
-
-                                <td>
-                                    ₹ {item.gstAmount}
-                                </td>
-
-                                <td>
-                                    ₹ {item.totalPrice}
-                                </td>
-
-                                <td>
-
-                                    <button
-                                        className="btn btn-danger btn-sm"
-                                        onClick={() =>
-                                            removeItem(
-                                                item.cartItemId
-                                            )
-                                        }
-                                    >
-                                        Remove
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        ))
-
+                        loading
+                            ? "Processing..."
+                            : "Checkout"
                     }
-
-                </tbody>
-
-            </table>
-
-            <h3>
-                Grand Total : ₹ {cart.totalAmount}
-            </h3>
-
-            <div className="mb-3">
-
-                <label className="form-label">
-                    Payment Provider
-                </label>
-
-                <select
-                    className="form-select"
-                    value={paymentProvider}
-                    onChange={(e) =>
-                        setPaymentProvider(
-                            e.target.value
-                        )
-                    }
-                >
-
-                    <option value="GooglePay">
-                        GooglePay
-                    </option>
-
-                    <option value="PhonePe">
-                        PhonePe
-                    </option>
-
-                    <option value="Paytm">
-                        Paytm
-                    </option>
-
-                </select>
+                </button>
 
             </div>
-
-            <div className="mb-3">
-
-                <label className="form-label">
-                    Payment Type
-                </label>
-
-                <select
-                    className="form-select"
-                    value={paymentType}
-                    onChange={(e) =>
-                        setPaymentType(
-                            e.target.value
-                        )
-                    }
-                >
-
-                    <option value="UPI">
-                        UPI
-                    </option>
-
-                    <option value="CARD">
-                        CARD
-                    </option>
-
-                    <option value="NET_BANKING">
-                        NET BANKING
-                    </option>
-
-                </select>
-
-            </div>
-
-            <button
-                className="btn btn-success"
-                disabled={loading}
-                onClick={placeOrder}
-            >
-                {
-                    loading
-                        ? "Processing..."
-                        : "Checkout"
-                }
-            </button>
-
-        </div>
+            <Footer />
+        </>
     );
 }
 
