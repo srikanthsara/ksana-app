@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const CART_URL =
-    "http://localhost:9090/cart";
+    "http://localhost:8883/cart";
 
 class CartService {
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const ORDER_URL =
-    "http://localhost:9090/orders";
+    "http://localhost:8883/orders";
 
 class OrderService {
 

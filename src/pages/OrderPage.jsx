@@ -19,7 +19,7 @@ export default function OrderPage() {
     const loadOrders = () => {
 
         axios.get(
-                `http://localhost:9090/orders/customer/${localStorage.getItem("customerId")}?page=${page}&size=5`
+                `http://localhost:8883/orders/customer/${localStorage.getItem("customerId")}?page=${page}&size=5`
             )
             .then(response => {
 

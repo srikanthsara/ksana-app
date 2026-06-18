@@ -90,7 +90,7 @@ export default function ProductPage() {
 
         axios
             .post(
-                "http://localhost:9090/cart/add",
+                "http://localhost:8883/cart/add",
                 payload
             )
             .then(response => {

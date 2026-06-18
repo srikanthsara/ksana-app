@@ -29,7 +29,7 @@ export default function CartPage() {
     const loadCart = () => {
 
         axios.get(
-            `http://localhost:9090/cart/${localStorage.getItem("customerId")}`
+            `http://localhost:8883/cart/${localStorage.getItem("customerId")}`
         )
             .then(response => {
 
@@ -66,7 +66,7 @@ export default function CartPage() {
         };
 
         axios.post(
-            "http://localhost:9090/orders/checkout",
+            "http://localhost:8883/orders/checkout",
             request
         )
             .then(response => {
@@ -105,7 +105,7 @@ export default function CartPage() {
         }
 
         axios.put(
-            `http://localhost:9090/cart/item/${cartItemId}?quantity=${quantity}`
+            `http://localhost:8883/cart/item/${cartItemId}?quantity=${quantity}`
         )
             .then(response => {
 
@@ -126,7 +126,7 @@ export default function CartPage() {
     ) => {
 
         axios.delete(
-            `http://localhost:9090/cart/item/${cartItemId}`
+            `http://localhost:8883/cart/item/${cartItemId}`
         )
             .then(() => {
 

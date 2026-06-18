@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PRODUCT_URL = "http://localhost:9090/products";
+const PRODUCT_URL = "http://localhost:8883/products";
 
 class ProductService {
 
@@ -12,7 +12,7 @@ class ProductService {
  searchProducts(name) {
 
     return axios.get(
-        "http://localhost:9090/products/search",
+        "http://localhost:8883/products/search",
         {
             params: {
                 name: name

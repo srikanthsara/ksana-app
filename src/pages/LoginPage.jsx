@@ -48,7 +48,7 @@ export default function LoginPage() {
         }
         setLoading(true);
         axios.post(
-            "http://localhost:9090/auth/login",
+            "http://localhost:8883/auth/login",
             request
         )
             .then(response => {
@@ -170,10 +170,10 @@ export default function LoginPage() {
 
 
                         <button
-                            className="btn btn-success w-100"
-                            onClick={login}
-                            disabled={loading}
-                        >
+                                type="submit"
+                                className="btn btn-success w-100"
+                                disabled={loading}
+                            >
                             {
                                 loading
                                     ? "Logging In..."
