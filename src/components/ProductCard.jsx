@@ -11,6 +11,13 @@ export default function ProductCard({
 
                 <div className="card-body">
 
+                    <img
+                        src={product.imageUrl}
+                        alt={product.productName}
+                        width="150"
+                        height="150"
+                    />
+
                     <h5>
                         {product.productName}
                     </h5>

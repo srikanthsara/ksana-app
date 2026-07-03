@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import API_BASE_URL from "../config/api";
 
 export default function CartPage() {
 
@@ -29,7 +30,7 @@ export default function CartPage() {
     const loadCart = () => {
 
         axios.get(
-            `http://localhost:8883/cart/${localStorage.getItem("customerId")}`
+            `${API_BASE_URL}/cart/${localStorage.getItem("customerId")}`
         )
             .then(response => {
 
@@ -66,7 +67,7 @@ export default function CartPage() {
         };
 
         axios.post(
-            "http://localhost:8883/orders/checkout",
+            `${API_BASE_URL}/orders/checkout`,
             request
         )
             .then(response => {
@@ -105,7 +106,7 @@ export default function CartPage() {
         }
 
         axios.put(
-            `http://localhost:8883/cart/item/${cartItemId}?quantity=${quantity}`
+            `${API_BASE_URL}/cart/item/${cartItemId}?quantity=${quantity}`
         )
             .then(response => {
 
@@ -126,7 +127,7 @@ export default function CartPage() {
     ) => {
 
         axios.delete(
-            `http://localhost:8883/cart/item/${cartItemId}`
+            `${API_BASE_URL}/cart/item/${cartItemId}`
         )
             .then(() => {
 

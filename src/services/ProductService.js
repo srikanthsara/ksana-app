@@ -1,6 +1,9 @@
 import axios from "axios";
+import API_BASE_URL from "../config/api";
 
-const PRODUCT_URL = "http://localhost:8883/products";
+
+
+const PRODUCT_URL = "${API_BASE_URL}/products";
 
 class ProductService {
 
@@ -12,7 +15,7 @@ class ProductService {
  searchProducts(name) {
 
     return axios.get(
-        "http://localhost:8883/products/search",
+        "${API_BASE_URL}/products/search",
         {
             params: {
                 name: name

@@ -1,7 +1,9 @@
 import axios from "axios";
+import API_BASE_URL from "../config/api";
+
 
 const CART_URL =
-    "http://localhost:8883/cart";
+    "${API_BASE_URL}/cart";
 
 class CartService {
 

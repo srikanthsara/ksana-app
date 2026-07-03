@@ -1,7 +1,9 @@
 import axios from "axios";
+import API_BASE_URL from "../config/api";
+
 
 const ORDER_URL =
-    "http://localhost:8883/orders";
+    "${API_BASE_URL}/orders";
 
 class OrderService {
 

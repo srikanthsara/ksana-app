@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProductService from "../services/ProductService";
+import API_BASE_URL from "../config/api";
 
 
 
@@ -90,7 +91,7 @@ export default function ProductPage() {
 
         axios
             .post(
-                "http://localhost:8883/cart/add",
+                `${API_BASE_URL}/cart/add`,
                 payload
             )
             .then(response => {

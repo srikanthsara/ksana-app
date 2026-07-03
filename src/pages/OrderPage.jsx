@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import API_BASE_URL from "../config/api";
 
 export default function OrderPage() {
 
@@ -19,7 +20,7 @@ export default function OrderPage() {
     const loadOrders = () => {
 
         axios.get(
-                `http://localhost:8883/orders/customer/${localStorage.getItem("customerId")}?page=${page}&size=5`
+                `${API_BASE_URL}/orders/customer/${localStorage.getItem("customerId")}?page=${page}&size=5`
             )
             .then(response => {
 
